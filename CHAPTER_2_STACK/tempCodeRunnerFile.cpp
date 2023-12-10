@@ -51,18 +51,17 @@ int main() {
     st* p = new st; // Allocate memory for the stack
 
     int choice;
-    int x=0;
     while (1) {
         cout << "\nPress 1 to pop\n";
-        cout << "Press 2 to push\n";
-        cout << "Press 3 to display\n";
-        cout << "Press 4 to exit\n";
+        cout << "\nPress 2 to push\n";
+        cout << "\nPress 3 to display\n";
+        cout << "\nPress 4 to exit\n";
         cin >> choice;
         
 
         switch (choice) {
         case 1:
-            x=pop(p);
+            int x=pop(p);
             if(x){
             cout << "\nthe deleted item is " << x;
             }
