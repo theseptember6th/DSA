@@ -10,30 +10,45 @@ void display(int*stack,int*x){
 
 
 
-void push(int*stack,int*x,int size){
-    if(*x==size-1){
+void push(int *&stack, int *x, int &size) {
+    if (*x == size - 1) {
         int choice;
-        cout<<"STACK FULL\n";
-        // cout<<"\n PRESS 1 to increase the size\n";
-        // cin>>choice;
-        // if(choice){
-        //     int extra;
-        //     cout<<"\n Enter the size you want to be further added\n";
-        //     cin>>extra;
-        //     int *stack1=new int [size+extra];
-        //     delete [] stack;
-        //     stack=stack1;
+        cout << "STACK FULL\n";
+        cout << "Press 1 to increase the size, or any other key to cancel: ";
+        cin >> choice;
 
-        // }
+        if (choice == 1) {
+            int extra;
+            cout << "\nEnter the size you want to be further added: ";
+            cin >> extra;
+            int *stack1 = new int[size + extra];
+
+            // Copy existing elements to the new stack
+            for (int i = 0; i <= *x; i++) {
+                stack1[i] = stack[i];
+            }
+
+            delete[] stack;
+            stack = stack1;
+            size += extra;
+
+            cout << "\nStack size increased to " << size << endl;
+        } 
+        else {
+            cout << "\nPush operation cancelled.\n";
+           
+        }
     }
     else{
-        int item;
-        cout<<"\n ENTER THE ITEM TO BE INSERTED/PUSHED\n";
-        cin>>item;
-        (*x)++;
-        stack[*x]=item;
+
+    int item;
+    cout << "\nEnter the item to be inserted/pushed: ";
+    cin >> item;
+    (*x)++;
+    stack[*x] = item;
     }
 }
+
 
 int pop(int *stack,int*x){
     if(*x==-1){
@@ -57,16 +72,13 @@ int main(){
     int *stack=new int[size];
     int choice;
     int deleted_item=0;
+    int extra_size=0;
     while(1){
         cout<<"\nPRESS 1 TO PUSH\t";
         cout<<"\tPRESS 2 TO POP\n";
         cout<<"PRESS 3 TO DISPLAY\t";
-        // cout<<"PRESS  TO INCREASE SIZE\t";
         cout<<"\nPRESS 4 TO EXIT \n";
        
-        
-        
-
         cin>>choice;
 
         switch(choice){
@@ -85,33 +97,20 @@ int main(){
             display(stack,&top);
             break;
 
-        
             case 4:
             cout<<"\n......EXITING......\n";
             cout<<"\n DELETING THE STACK\n";
              delete [] stack;
-            exit(0);
-
-            
-
+            return 0;
 
             default:
             cout<<"\nINVALID CHOICE\n";
             break;
 
-
-            
         }
        
     }
     
-
-
-
-
-
-
-
     delete [] stack;
 
    return 0;
