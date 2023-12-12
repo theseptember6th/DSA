@@ -1,94 +1,113 @@
 #include<iostream>
 #include<cstring>
 using namespace std;
-#define size 10
 
-struct stacks {
-    int stack[size];
-    int top = -1;
-};
-
-typedef struct stacks st;
-
-int pop(st* p) {
-    if (p->top == -1) {
-        cout << "\nstack is empty\n";
-       return 0;
-    }
-    else {
-        int deleted = p->stack[p->top];
-        p->top--;
-        return deleted;
-    }
+void INPUT(char *infix){
+    cout<<"\nEnter the infix ";
+    cin>>infix;
+    
 }
 
-void push(st* p, int item) {
-    if (p->top == size - 1) {
-        cout << "\n stack full\n";
-        
-    }
-    else {
-        p->top++;
-        p->stack[p->top] = item;
-    }
-}
+int precedence(char infix){
+    char ch=infix;
+     int value=0;
+            switch(ch){
+                case '$':
+                case '^':
+                value=3;
+                return value;
 
-void display(st* p) {
-    if (p->top == size - 1) {
-        cout << "\n stack full\n";
-        
-    }
-    else{
-    cout<<"\ndisplaying\n\n\n";
-    for (int i = 0; i <= p->top; i++) {
-        cout << " \t" << p->stack[i] << "\t ";
-    }
-    cout<<"\n\n\n";
-    }
-}
+                case '*':
+                case '/':
+                value=2;
+                return value;
+               
 
-int main() {
-    st* p = new st; // Allocate memory for the stack
+                case '+':
+                case'-':
+                value=1;
+               return value;
 
-    int choice;
-    while (1) {
-        cout << "\nPress 1 to pop\n";
-        cout << "\nPress 2 to push\n";
-        cout << "\nPress 3 to display\n";
-        cout << "\nPress 4 to exit\n";
-        cin >> choice;
-        
-
-        switch (choice) {
-        case 1:
-            int x=pop(p);
-            if(x){
-            cout << "\nthe deleted item is " << x;
+                default:
+                cout<<"\ninvalid operator\n";
+                return value;
             }
-            break;
+}
 
-        case 2:
-            int value;
-            cout << "\n enter the value to be pushed\n";
-            cin >> value;
-            push(p, value);
-            break;
 
-        case 3:
-            display(p);
-            break;
-
-        case 4:
-            cout << "\n exiting......\n";
-            delete p; // Free the allocated memory
-            exit(1);
-            break;
-
-        default:
-            cout << "\n invalid choice.....\n";
-            break;
+void CONVERT(char *infix,char*poststack,int *top_poststack,char*operatorstack,int *top_operatorstack){
+    
+    int value;
+     int length=strlen(infix);
+     for(int i=0;i<length;i++){
+        if(infix[i]=='('){
+               (*top_operatorstack)++;
+               operatorstack[*top_operatorstack]=infix[i];
         }
-    }
+        else if(isalpha(infix[i])){
+            *(top_poststack)++;
+            poststack[*top_poststack]=infix[i];
+        }
+        else if(infix[i]==')'){
+               while(operatorstack[*top_operatorstack]=='('){
+                  *(top_poststack)++;
+                  poststack[*top_poststack++]=operatorstack[*top_operatorstack];
+                  *(top_poststack)--;
+               }
+               *(top_poststack)--;
+        }
+            
+        
+        else {
+            
+            while(*top_operatorstack!=-1 && precedence(operatorstack[*top_operatorstack]) >= precedence(infix[i])){
+                  poststack[*top_poststack]=operatorstack[*top_operatorstack];
+                   *(top_operatorstack)--;
+                   *(top_operatorstack)++;
+                   operatorstack[*top_operatorstack]=infix[i];
+            }
+            *(top_operatorstack)++;
+            operatorstack[*top_operatorstack] = infix[i];
+            
+        }
+    
+    
+
+        
+     }
+
+     
+
+     while(*top_operatorstack!=-1){
+        (*top_poststack)++;
+        poststack[*top_poststack]=operatorstack[*top_operatorstack];
+        (*top_operatorstack)--;
+
+     }
+
+    
+}
+         
+
+
+void DISPLAY(char *poststack,int *top_poststack){
+          for(int i=0;i<=*top_poststack;i++){
+            cout<<poststack[i]<<" ";
+          }
+}
+
+
+
+int main(){
+    char infix[100];
+    char poststack[100];
+    int top_poststack=-1;
+    char operatorstack[100];
+    int top_operatorstack=-1;
+    INPUT(infix);
+    CONVERT(infix,poststack,&top_poststack,operatorstack,&top_operatorstack);
+    DISPLAY(poststack,&top_poststack);
+    
 
     return 0;
 }
