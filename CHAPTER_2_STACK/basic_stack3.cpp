@@ -47,7 +47,7 @@ int main(){
     int *stack=new int[size];
     int choice;
     int deleted_item=0;
-    int extra_size=0;
+
     while(1){
         cout<<"\nPRESS 1 TO PUSH\t";
         cout<<"\tPRESS 2 TO POP\n";
