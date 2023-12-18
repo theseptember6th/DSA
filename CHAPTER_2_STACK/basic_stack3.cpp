@@ -66,6 +66,9 @@ int main(){
             if(deleted_item){
             cout<<"\n THE DELETED ITEM IS "<<deleted_item;
             }
+            else{
+                cout<<"\n no item to delete\n";
+            }
             break;
 
             case 3:
