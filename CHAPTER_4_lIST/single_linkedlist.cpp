@@ -100,7 +100,9 @@ void DELETE_AT_BEGINNING()
 
 void INSERT_AT_K_POSITION(int item, int position)
 {
-    Nodetype *temp = head;
+    Nodetype *temp = new Nodetype;
+    Nodetype *temp1=new Nodetype;
+    temp= head;
     Nodetype *newnode = new Nodetype;
     newnode->info = item;
 
@@ -122,7 +124,8 @@ void INSERT_AT_K_POSITION(int item, int position)
         }
         else
         {
-            newnode->next = temp->next;
+            temp1=temp->next;
+            newnode->next = temp1;
             temp->next = newnode;
         }
     }
@@ -131,7 +134,8 @@ void INSERT_AT_K_POSITION(int item, int position)
 
 void DELETE_AT_K_position(int position)
 {
-    Nodetype *temp = head;
+    Nodetype *temp = new Nodetype;
+    temp=head;
 
     if (head == NULL)
     {
@@ -155,7 +159,8 @@ void DELETE_AT_K_position(int position)
         }
         else
         {
-            Nodetype *temp1 = temp->next;
+            Nodetype *temp1=new Nodetype;
+            temp1 = temp->next;
             temp->next = temp1->next;
             delete temp1;
         }
