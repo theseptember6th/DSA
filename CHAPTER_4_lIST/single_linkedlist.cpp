@@ -100,77 +100,69 @@ void DELETE_AT_BEGINNING()
 
 void INSERT_AT_K_POSITION(int item, int position)
 {
-    Nodetype *temp = new Nodetype;
+    Nodetype *temp = head;
     Nodetype *newnode = new Nodetype;
-    Nodetype *temp1 = new Nodetype;
     newnode->info = item;
-    if (head == NULL)
-    { // empty
-        if (position == 1)
+
+    if (position == 1)
+    {
+        newnode->next = head;
+        head = newnode;
+    }
+    else
+    {
+        for (int i = 1; temp != NULL && i < position - 1; ++i)
         {
-            head = newnode;
-            newnode->next = NULL;
+            temp = temp->next;
         }
-        else
+
+        if (temp == NULL)
         {
             cout << "INVALID POSITION\n";
         }
-    }
-    else
-    { // non-empty case
-        int count = 0;
-        temp = head;
-        while (temp->next != NULL)
-        {
-            ++count;
-            temp = temp->next;
-        }
-        if (position <= count)
-        {
-            for (int i = 1; i < position - 1; i++)
-            {
-                temp = temp->next;
-            }
-            temp1 = temp->next;
-            temp->next = newnode;
-            newnode->next = temp1;
-        }
         else
         {
-            cout << "OUT OF INDEX\n";
+            newnode->next = temp->next;
+            temp->next = newnode;
         }
     }
 }
 
+
 void DELETE_AT_K_position(int position)
 {
-    Nodetype *temp = new Nodetype;
-    Nodetype *temp1 = new Nodetype;
+    Nodetype *temp = head;
+
     if (head == NULL)
     {
         cout << "NOTHING TO DELETE\n";
     }
+    else if (position == 1)
+    {
+        head = temp->next;
+        delete temp;
+    }
     else
     {
-        int count = 0;
-        temp = head;
-        while (temp->next != NULL)
+        for (int i = 1; temp != NULL && i < position - 1; ++i)
         {
-            ++count;
             temp = temp->next;
         }
-        if (position <= count)
+
+        if (temp == NULL || temp->next == NULL)
         {
-            for (int i = 1; i < position - 1; i++)
-            {
-                temp = temp->next;
-            }
-            temp1 = temp->next;
+            cout << "INVALID POSITION\n";
+        }
+        else
+        {
+            Nodetype *temp1 = temp->next;
             temp->next = temp1->next;
             delete temp1;
         }
     }
 }
+
+
 
 void DISPLAY()
 {
@@ -197,13 +189,13 @@ int main()
     int choice, item, position;
     while (1)
     {
-        cout << "\nPRESS 1 to insert node at first position\n";
+        cout << "\nPRESS 1 to insert node at first position\t";
         cout << "PRESS 2 to delete node at first position\n";
-        cout << "PRESS 3 to display the single linked list\n";
+        cout << "PRESS 3 to display the single linked list\t";
         cout << "PRESS 4 to exit the program\n";
-        cout << "PRESS 5 to insert node at last position\n";
+        cout << "PRESS 5 to insert node at last position\t\t";
         cout << "PRESS 6 to delete node at last position\n";
-        cout << "PRESS 7 to insert at specified position\n";
+        cout << "PRESS 7 to insert at specified position\t\t";
         cout << "PRESS 8 to delete at specified position\n";
 
         cin >> choice;
